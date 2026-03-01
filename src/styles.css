@@ -1,4 +1,467 @@
+:root {
+  --main-color  : rgba(255, 249, 249);
+  --main-font   :  Georgia, 'Times New Roman', Times, serif;
+  --border-color: rgb(212, 212, 212);
+}
 
-body {
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+#container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 3.5em auto 3em;
+  grid-template-columns: 18.5em auto;   
+}
+
+header {
+  grid-row: 1; 
+  grid-column: 2 / 3;
+}
+
+footer {
+  background-color: rgb(255, 249, 249);
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  
+  grid-row: 3; 
+  grid-column: 2 / 3;
+}
+footer > img {
+  width: 2.5em;
+  height: 2.5em;
+}
+
+#sidebar {
+  grid-row: 1 / 4; 
+  grid-column: 1;
+  background-color: var(--main-color);
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  padding: 1em;
+}
+
+li > img {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.profile-picture {
+  height: 2em;
+  width: 2em;
+}
+
+.profile {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--main-font); 
+}
+
+.profile li {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  
+}
+
+.profile li > img:first-child {
+  margin-right: 0.5em;  
+}
+
+.username {
+  max-width: 150px;
+  white-space: nowrap; 
+  overflow: hidden;       
+  text-overflow: ellipsis; 
+}
+
+.sidebar-elements {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--main-font);
+  gap: 0.2em;
+}
+.sidebar-elements li {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.sidebar-elements li img{
+  height: 1.5em;
+  width: 1.5em;
+}
+.sidebar-elements li p{
+  margin-left: 0.5em;
+  padding: 0.5em 0.5em 0.5em 0;
+}
+
+#img img {
+  height: 1.5em;
+  width: 1.5em;
+}
+#img {
+  display: flex; 
+  flex-direction: row;
+  gap: 0.8em; 
+}
+
+
+
+.my-projects {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--main-font);
+  gap: 0.2em;
+
+}
+.my-projects li {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5em 0.5em 0.5em 0;
+  max-width: 100%;
+  white-space: nowrap; 
+  overflow: hidden;       
+  text-overflow: ellipsis; 
+  border-radius: 10px;
+}
+.my-projects li:first-child {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 0.5em 0.5em 0;
+}
+
+.my-projects li img{
+  margin-right: 0.5em;
+  margin-left: 1em;
+}
+.my-projects li img{
+  height: 1em;
+  width: 1em;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.row-container {
+  margin-bottom: 0.2em;
+}
+
+.project-row  {
+  display: flex;
+  gap: 1em;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1em;
+  background-color: rgb(250, 227, 227);
+}
+
+.img-circle {
+  width: 1em;
+  height: 1em;
+}
+
+#form-container {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(230, 230, 230);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid black;
+  z-index: 1000;
+}
+
+#form-container > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#form-container > div > img{
+  width: 1em;
+  height: 1em;
+}
+
+.rebecca-purple {
+  display: none;
   background-color: rebeccapurple;
+  width: 100%;
+  height: 100px;
+}
+
+#mytodo {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  flex-direction: column;
+  
+  grid-row: 2; 
+  grid-column: 2 / 3;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-name {
+  width: 100%;
+  font-size: 2rem;
+  text-align: start;
+  display: flex;  
+  padding: 0.3em;
+  padding-left: 20%;
+  font-family: var(--main-font);
+}
+
+.project-name p {
+  width: 55%;
+}
+
+.todo-container {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 0 20% 10% 20%;
+}
+
+.add-todo-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 5%;
+  align-items: center;
+  gap: 0.8em;
+}
+
+.add-todo-row button {
+ width: 3em;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border: none;
+ background-color: white;
+}
+
+.editor {
+  border: 1px solid rgb(165, 165, 165);
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 1.5em 0.2em 1.5em 3em 2.5em;
+  grid-template-columns: auto 3em;
+  overflow:visible;
+  padding: 0.7em 0;
+}
+
+.edit-name {
+  width: 100%;
+  height: 1.5em;
+  grid-row: 1 / 2;
+  font-weight: 700;
+  padding: 0 1em;
+}
+.edit-desc {
+  width: 100%;
+  height: 1.5em;
+  padding: 0 1em;
+  grid-row: 3/ 4;
+  grid-column: 1 / 3;
+}
+.close-add {
+  padding: 0;
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  border: none;
+  background-color: white;
+  display: flex;
+  justify-content: end;
+  padding-right: 0.6em;
+}
+.close-add img{
+  width: 1.5em;
+  height: 1.5em;
+}
+.edit-name:focus {
+  outline: none;
+}
+.edit-name:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+}
+.edit-desc:focus {
+  outline: none;
+}
+.edit-desc:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+}
+.option-container {
+  grid-row: 4 / 5;
+  grid-column: 1 / 3;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0 1em;
+}
+.last-container {
+  grid-row: 5 / 6;
+  grid-column: 1 / 3;
+  padding: 0 1em;
+}
+
+.selected {
+  background-color: #f0f0f0;
+}
+
+.option-container > div {
+  display: flex;
+  border: 1px solid var(--border-color);
+  padding: 0.3em 0.5em;
+  gap: 0.4em;
+  border-radius: 4px;
+}
+
+.option-container div img {
+  width: 1em;
+  height: 1em;
+}
+.last-container {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0.5em;
+}
+
+.last-container button {
+  padding: 0.6em 1em;
+  border-radius: 4px;
+  border: none;
+}
+
+.cancel-btn {}
+.confirm-btn {
+  background-color: rgb(85, 161, 85);
+  color: white;
+}
+
+#hidden-date {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hidden-check, .hidden-priority {
+  position: absolute; 
+  opacity: 0;
+  pointer-events: none;
+  top: 100%;
+  left: -1%;
+  z-index: 10;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  border-radius: 8px; 
+}
+.hidden-check {
+  padding: 1em;
+}
+
+.hidden-priority div {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.5em; 
+}
+
+.hidden-priority div:hover {
+  background-color: #f8f8f8;
+}
+
+.hidden-priority div p {
+  white-space: nowrap;
+}
+
+.hidden-priority.active, .hidden-check.active {
+  opacity: 1;
+  pointer-events: auto;
+  
+}
+
+.add-date, .add-priority, .add-checklist {
+  position: relative;
+}
+
+.edit-proj-name {
+  width: 100%;
+  height: 2em;
+  font-size: 16px;
+  font-weight: 300;
+  overflow: hidden;
+}
+.edit-proj-name:focus {
+ outline: none;
+}
+.edit-proj-name:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+li.temp-row {
+  display: flex;
+  padding: 0.6em 1.2em;
+}
+li.temp-row img:last-child {
+  width: 0.75em;
+  height: 0.75em;
+}
+
+.del-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0.3em;
+}
+.del-button-container button {
+  border: none;
+  background-color: var(--main-color);
+  height: 100%;
+}
+.del-button-container button > img{
+  margin: 0;
+  padding: 0;
 }
