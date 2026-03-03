@@ -3,7 +3,7 @@ export function createToDo({
   title = '',
   description = '',
   dueDate = null,
-  priority = 'low',
+  priority = 'Low Priority',
   checklist = [],
   completed = false
 } = {}) {

@@ -205,30 +205,34 @@ function createCircleOff(className) {
   element.src = circleOff;
   return element;
 }
-function createTodoRow(project) {
+function createTodoRow(todo) {
   const rowContainer = document.createElement('div');
+  rowContainer.classList.add(`todo-row`);
+  rowContainer.dataset.id = `${[todo.id]}`;
 
+  const imageCircleOff = document.createElement('div');
+  imageCircleOff.classList.add('circle-container');
+  imageCircleOff.appendChild(createCircleOff('img-circle'));
   const infoContainer = document.createElement('div');
-  const dropDownContainer = document.createElement('div');
+  infoContainer.classList.add('row-info');
 
   const nameBox = document.createElement('p');
-  const imageCircleOff = createCircleOff('img-circle');
+  nameBox.textContent = todo.title;
+  nameBox.classList.add('todo-title');
+  const descBox = document.createElement('p');
+  descBox.textContent = todo.description;
+  descBox.classList.add('todo-desc');
+  const dateBox = document.createElement('p');
+  dateBox.textContent = todo.dueDate;
+  dateBox.classList.add('todo-date');
 
-  rowContainer.classList.add(`row-container`)
-  rowContainer.dataset.id = `${[project.id]}`
-  rowContainer.dataset.action = `closed`
-  nameBox.classList.add('project-name');
-  infoContainer.classList.add('project-row');
-  
-  dropDownContainer.classList.add('rebecca-purple')
-
-  nameBox.textContent = project.name;
-  infoContainer.appendChild(imageCircleOff);
   infoContainer.appendChild(nameBox);
-  
-  rowContainer.appendChild(infoContainer);
-  rowContainer.appendChild(dropDownContainer);
+  infoContainer.appendChild(descBox);
+  infoContainer.appendChild(dateBox);
 
+  rowContainer.appendChild(imageCircleOff);
+  rowContainer.appendChild(infoContainer);
+  
   return rowContainer
 }
 
@@ -330,7 +334,7 @@ function createProjectName(project) {
 }
 
 export function renderProjects(project, parent) {
-  parent.textContent = '';
+  parent.innerHTML = '';
   
   parent.appendChild(createProjectName(project)) // state.projects[i]
   parent.appendChild(createTodoContainer(project))

@@ -74,19 +74,23 @@ function addProject() {
 }
 function validateProjectName(element) {
   const text = element.textContent;
-  // also add different limitations
   return text === '';
 }
+function isDataSetEmpty(element) {
+  const dataset = element.dataset.value;
+  return dataset === undefined;
+}
 function changeTextListener(popper) {
-  popper?.showPicker();
+  popper?.showPicker(); // toggles the date input
 
-  const updateDateText = () => {
-    const dateText = document.querySelector('div.add-date > p');
-    dateText.textContent = popper.value;
+  const updateDateText = () => { 
+    const container = document.querySelector('div.add-date');
+    container.dataset.value = popper.value;
 
-    popper.removeEventListener('change', updateDateText);
+    const display = container.querySelector('p');
+    display.textContent = popper.value;
   };
-  popper.addEventListener('change', updateDateText);
+  popper.addEventListener('change', updateDateText, { once: true });
 }
 function changePriorityText(selected, dom) {
   const element = document.querySelector(`.${dom}`);
@@ -100,6 +104,8 @@ function changePriorityText(selected, dom) {
   element.appendChild(img);
   element.appendChild(p);
   element.appendChild(hiddenList);
+
+  element.dataset.value = p.textContent;
 }
 function changeHighlight(state) {
 
@@ -110,6 +116,47 @@ function changeHighlight(state) {
     const isTrue = li.dataset.id === state.selectedProjectId;
     li.classList.toggle('selected', isTrue);
   })
+}
+function confirmAddToDo() {
+  const editor = myToDoContainer.querySelector('.editor');
+
+  const toDoName = editor.querySelector('.edit-name');
+  const toDoDesc = editor.querySelector('.edit-desc');
+  const option   = editor.querySelector('.option-container');
+
+  const toDoDate  = option.querySelector('.add-date');
+  const toDoPrio  = option.querySelector('.add-priority');
+  const toDoCheck = option.querySelector('.add-checklist');
+
+  console.log(toDoName.textContent);
+  console.log(toDoDesc.textContent);
+  console.log(toDoDate.dataset.value);
+  console.log(toDoPrio.dataset.value);
+  console.log(toDoCheck.dataset.value);
+
+  if (validateProjectName(toDoName)) return;
+  if (validateProjectName(toDoDesc)) return;
+  if (isDataSetEmpty(toDoDate)) return;
+  if (isDataSetEmpty(toDoPrio)) return;
+  if (isDataSetEmpty(toDoCheck)) console.log('empty okay with check list');
+
+  const newTodo = createToDo({
+    title       : toDoName.textContent,
+    description : toDoDesc.textContent,
+    dueDate     : toDoDate.dataset.value,
+    priority    : toDoPrio.dataset.value,
+    checklist   : [],
+  });
+  
+  const currentID = state.selectedProjectId;
+  const currentProject = state.projects.find((project) => {
+    return project.id === currentID;
+  })
+  if (!currentProject) return;
+
+  currentProject.addTodo(newTodo);
+  renderProjects(currentProject, myToDoContainer);
+  saveToLocalStorage(state);
 }
 
 // try to retrieve if there are projects in the local state data
@@ -148,17 +195,16 @@ myToDoContainer.addEventListener('click', (e) => {
 
   if (e.target.closest('[data-id]')) {
     e.preventDefault();
-    const action = e.target.closest('[data-action]');
+    const todoRow = e.target.closest('[data-id]');
     
-    if (action.dataset.action === 'closed') {
-      const row = e.target.closest('[data-id]');
-      const projectId = row.dataset.id
-      renderToDos(projectId, row)
-      action.dataset.action = 'open'; 
-    }
-    if (action.dataset.action === 'open') {
-      action.dataset.action = 'closed'; 
-    }
+    const project = state.projects.find((project) => {
+      return project.id === state.selectedProjectId;
+    })
+    const todo = project.todos.find((todo) => {
+      return todo.id === todoRow.dataset.id;
+    })
+    todo.toggle();
+    console.log(`Task ${todo.title} set to ${todo.completed}`);
     return;
   }
 
@@ -184,19 +230,21 @@ myToDoContainer.addEventListener('click', (e) => {
       };
       
       const action = Object.keys(poppers).find(key => e.target.closest(`.${key}`));
-
       if (!action) return;
+
       const clickedPopper = poppers[action];
       if (action === 'add-date') {
         changeTextListener(clickedPopper)
         return;
       }
-      if (action === 'add-priority') { // click popper to open
+      if (action === 'add-priority') { 
         const popper = poppers[action];
-        const selected = e.target.closest('[data-priority]');
+        if (!popper) return;
         popper.classList.toggle('active');
-        console.log(action)
-        if (selected) changePriorityText(selected, action);
+
+        const selected = e.target.closest('[data-priority]');
+        if (!selected) return; 
+        changePriorityText(selected, action);
       }
       if (action === 'add-checklist') {
         const popper = poppers[action];
@@ -208,10 +256,9 @@ myToDoContainer.addEventListener('click', (e) => {
 
     if(e.target.closest('.confirm-btn')) {
       console.log('Nnija')
+      confirmAddToDo();
     } 
   }
-
-
 
 })
 
