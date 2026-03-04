@@ -2,8 +2,7 @@ import "./styles.css";
 import { createToDo } from "./todo.js";
 import { createProject } from "./project.js";
 import { saveToLocalStorage, loadFromLocalStorage } from "./storage.js";
-import { renderProjects, renderToDos, showForm, updateProjectList, renderAddEditor, renderAddProj, renderDelMode } from "./dom.js";
-import { format } from "date-fns";
+import { renderProjects, updateProjectList, renderAddEditor, renderAddProj, renderDelMode } from "./dom.js";
 import { state } from "./storage.js";
 
 const myToDoContainer = document.querySelector('#mytodo');
@@ -165,16 +164,16 @@ if (storedData) {
   // rehydrate JSON objs into JS objs
   state.projects = storedData.projects.map(projectData => {
     const project = createProject(projectData);
+    project.todos = [];
     projectData.todos.forEach(todoData => {
       project.addTodo(createToDo(todoData));
     });
-
     return project;
   });
-
-  if (state.projects.length > 0) {
-    state.selectedProjectId = state.projects[0].id;
-  }
+  console.log(state)
+} else {
+  const project = createProject({name: 'New Project'})
+  state.projects.push(project);
 }
 update(); // initial render
 
@@ -290,5 +289,4 @@ sideBarContainer.addEventListener('click', (e) => {
   }
 });
 
-console.log(state)
 
